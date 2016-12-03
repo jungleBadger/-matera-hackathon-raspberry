@@ -7,7 +7,6 @@
     module.exports = function (mqtt, iotf_configs) {
         return {
             createConnection: function () {
-                console.log("aqui");
                 return new Promise(function (resolve, reject) {
                     var mqttApp = mqtt.connect(["mqtt://", iotf_configs.org].join(""), {
                         clientId: iotf_configs.id,

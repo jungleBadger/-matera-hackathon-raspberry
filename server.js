@@ -20,6 +20,7 @@
         compress = require('compression'),
         morgan = require('morgan'),
 	    GPIO = require('onoff').Gpio,
+        tempSensor = require("")
         server = require('http').createServer(app),
         io = require('socket.io')(server);
 
