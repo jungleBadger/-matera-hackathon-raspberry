@@ -4,7 +4,7 @@
 
     var registrationRoutes = require('./partials/registrationHandler');
 
-    module.exports = function (app, request, mqtt, iot_configs, device_info) {
+    module.exports = function (app, request, mqtt, device_info) {
         registrationRoutes(app, request, device_info);
 
 
