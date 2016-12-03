@@ -18,7 +18,7 @@
 
             if (topic === "iot-2/cmd/status/fmt/json") {
                 deviceTracker.getLocation().then(function (data) {
-                    iot_cloud.publish("iot-2/evt/status/fmt/json", "json", JSON.stringify(data), 2);
+                    iot_cloud.publish("iot-2/evt/status/fmt/json", JSON.stringify(data), 2);
                     console.log(data);
                 }, function (error) {
                     console.log(error);
