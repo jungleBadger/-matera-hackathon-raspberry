@@ -36,7 +36,9 @@
     device_configs.then(function (device_info) {
         console.log("deviceInfo");
         console.log(device_info);
+
         iot_configs_cloud = require('./server/configs/iotf_configs-cloud.js')(localEnv, device_info).defaults();
+        require('./server/routes/index.js')(app, request, mqtt, iot_configs_cloud);
         iot_connection_cloud = require("./server/helpers/iotf_connection-cloud")(mqtt, iot_configs_cloud);
         iot_connection_cloud.createConnection().then(function (cloudMqtt) {
 
