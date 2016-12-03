@@ -7,8 +7,8 @@
     module.exports = function (mqtt, iotf_configs) {
         return {
             createConnection: function () {
-console.log("aqui"); 
-               return new Promise(function (resolve, reject) {
+                console.log("aqui");
+                return new Promise(function (resolve, reject) {
                     var mqttApp = mqtt.connect(["mqtt://", iotf_configs.org].join(""), {
                         clientId: iotf_configs.id,
                         username: iotf_configs.username,
@@ -19,8 +19,8 @@ console.log("aqui");
 
 
                     mqttApp.on('connect', function () {
-console.log("connected cloud");                    
-    resolve(mqttApp);
+                        console.log("connected cloud");
+                        resolve(mqttApp);
                     });
 
                     mqttApp.on('error', function (error) {

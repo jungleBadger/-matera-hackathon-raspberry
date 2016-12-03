@@ -6,6 +6,7 @@
     "use strict";
 
     module.exports = function (app, request, device_info) {
+        console.log("AQUIIIII");
         request({
             "method": "POST",
             // "uri": "http://192.168.25.130:6026/createDevice",
