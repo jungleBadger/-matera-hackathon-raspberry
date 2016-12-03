@@ -1,0 +1,26 @@
+{
+  "name": "NodejsStarterApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cfenv": "1.0.x",
+    "compression": "^1.6.2",
+    "consolidate": "^0.14.1",
+    "ejs": "^2.5.2",
+    "express": "^4.13.4",
+    "morgan": "^1.7.0",
+    "mqtt": "^2.0.0",
+    "node-env-file": "^0.1.8",
+    "onoff": "^1.1.1",
+    "path": "^0.12.7",
+    "request": "^2.75.0",
+    "socket.io": "^1.4.8"
+  },
+  "repository": {},
+  "engines": {
+    "node": "4.x"
+  }
+}
