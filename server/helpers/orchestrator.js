@@ -14,20 +14,16 @@
         iot_cloud.on("message", function (topic, msg) {
             console.log("message received");
             console.log(topic);
-
-            if (topic === "iot-2/cmd/status/fmt/json") {
-
-                deviceTracker.getLocation().then(function (data) {
-                    console.log(data);
-                });
-
-
-            }
-
             console.log(msg);
 
-
-            iot_cloud.publish("iot-2/evt/status/fmt/json", JSON.stringify({oi: "olá"}));
+            if (topic === "iot-2/cmd/status/fmt/json") {
+                deviceTracker.getLocation().then(function (data) {
+                    iot_cloud.publish("iot-2/evt/status/fmt/json", JSON.stringify(data));
+                    console.log(data);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
 
             if (ledStatus === 0) {
                 ledStatus = 1;
