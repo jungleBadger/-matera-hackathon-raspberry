@@ -13,7 +13,7 @@
                     request.get("http://freegeoip.net/json", function (err, body, response) {
                         console.log(err);
                         console.log(body);
-                        resolve(body);
+                        resolve(response);
                     });
                 });
             }
