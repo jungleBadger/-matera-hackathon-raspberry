@@ -18,7 +18,7 @@
         compress = require('compression'),
         request = require('request'),
         morgan = require('morgan'),
-	GPIO = require('onoff').Gpio,
+	    GPIO = require('onoff').Gpio,
         server = require('http').createServer(app),
         io = require('socket.io')(server);
 
@@ -34,6 +34,8 @@
     app.set('view engine', 'html');
 
     device_configs.then(function (device_info) {
+        console.log("deviceInfo");
+        console.log(device_info);
         iot_configs_cloud = require('./server/configs/iotf_configs-cloud.js')(localEnv, device_info).defaults();
         iot_connection_cloud = require("./server/helpers/iotf_connection-cloud")(mqtt, iot_configs_cloud);
         iot_connection_cloud.createConnection().then(function (cloudMqtt) {
