@@ -4,9 +4,7 @@
 (function () {
     "use strict";
 
-    var deviceLocation = require("./deviceLocation");
-
-    module.exports = function (app, iot_cloud, iot_local, io, GPIO, request) {
+    module.exports = function (app, iot_cloud, iot_local, io, GPIO, deviceTracker) {
 
         var led = new GPIO(4, "out"),
             ledStatus = 0;
@@ -19,9 +17,9 @@
 
             if (topic === "iot-2/cmd/status/fmt/json") {
 
-                deviceLocation().then(function (data) {
+                deviceTracker().then(function (data) {
                     console.log(data);
-                })
+                });
 
 
             }

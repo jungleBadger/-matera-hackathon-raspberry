@@ -12,6 +12,7 @@
         iot_configs_local = require('./server/configs/iot_configs-local.js')(localEnv),
         iot_configs_cloud,
         iot_connections_local = require("./server/helpers/iot_connections-local")(mqtt, localEnv),
+        deviceTracker = require("./server/helpers/deviceLocation")(request),
         iot_connection_cloud,
         path = require('path'),
         ejs = require('ejs'),
@@ -41,7 +42,7 @@
         iot_connection_cloud.createConnection().then(function (cloudMqtt) {
             iot_connections_local = require("./server/helpers/iot_connections-local")(mqtt, localEnv);
             iot_connections_local.createConnection().then(function (localMqtt) {
-                require("./server/helpers/orchestrator")(app, cloudMqtt, localMqtt, io, GPIO);
+                require("./server/helpers/orchestrator")(app, cloudMqtt, localMqtt, io, GPIO, deviceTracker);
             });
             console.log('fkn created');
         }, function (err) {
