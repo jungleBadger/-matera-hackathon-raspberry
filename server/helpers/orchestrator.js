@@ -17,7 +17,7 @@
 
             if (topic === "iot-2/cmd/status/fmt/json") {
 
-                deviceTracker().then(function (data) {
+                deviceTracker.getLocation().then(function (data) {
                     console.log(data);
                 });
 
