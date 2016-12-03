@@ -18,10 +18,21 @@
                     'humidity: ' + humidity.toFixed(1) + '%'
                 );
 
-                iot_cloud.publish("iot-2/evt/status/fmt/json", {
-                    "temp": temperature,
-                    "hum": humidity
-                }, 2);
+
+
+                if (temperature.toFixed(1) > 30) {
+                    deviceTracker.getLocation().then(function (data) {
+                        iot_cloud.publish("iot-2/evt/status/fmt/json", {
+                            "temp": temperature,
+                            "hum": humidity,
+                            "location": data
+                        }, 2);
+                        console.log(data);
+                    }, function (error) {
+                        console.log(error);
+                    });
+                }
+
             }
         });
 
