@@ -14,9 +14,8 @@
                         console.log(err);
                         console.log(body);
                         resolve(body);
-
                     });
-                }());
+                });
             }
         };
 
