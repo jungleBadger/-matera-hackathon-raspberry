@@ -50,6 +50,10 @@
                                             }];
                                         }
                                     }
+
+                                    tripsDB.insert(data.docs[0], function () {
+                                        console.log("INSERTED");
+                                    });
                                 }
 
                             });
@@ -81,6 +85,10 @@
                                         }];
                                     }
                                 }
+
+                                tripsDB.insert(data.docs[0], function () {
+                                    console.log("INSERTED");
+                                });
                             }
 
                         });
