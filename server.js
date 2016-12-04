@@ -20,7 +20,7 @@
         compress = require('compression'),
         morgan = require('morgan'),
 	    GPIO = require('onoff').Gpio,
-        tempSensor = require(""),
+        tempSensor = require("node-dht-sensor"),
         server = require('http').createServer(app),
         io = require('socket.io')(server);
 
@@ -43,7 +43,7 @@
         iot_connection_cloud.createConnection().then(function (cloudMqtt) {
             iot_connections_local = require("./server/helpers/iot_connections-local")(mqtt, localEnv);
             iot_connections_local.createConnection().then(function (localMqtt) {
-                require("./server/helpers/orchestrator")(app, cloudMqtt, localMqtt, io, GPIO, deviceTracker);
+                require("./server/helpers/orchestrator")(app, cloudMqtt, localMqtt, io, GPIO, deviceTracker, tempSensor);
             });
             console.log('fkn created');
         }, function (err) {

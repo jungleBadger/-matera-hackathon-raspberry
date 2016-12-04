@@ -4,7 +4,7 @@
 (function () {
     "use strict";
 
-    module.exports = function (app, iot_cloud, iot_local, io, GPIO, deviceTracker) {
+    module.exports = function (app, iot_cloud, iot_local, io, GPIO, deviceTracker, tempSensor) {
 
         var led = new GPIO(4, "out"),
             ledStatus = 0;
@@ -12,13 +12,11 @@
 
         var sensor = require('node-dht-sensor');
 
-        sensor.read(22, 4, function(err, temperature, humidity) {
+        tempSensor.read(22, 4, function(err, temperature, humidity) {
             if (!err) {
                 console.log('temp: ' + temperature.toFixed(1) + '°C, ' +
                     'humidity: ' + humidity.toFixed(1) + '%'
                 );
-
-
 
                 if (temperature.toFixed(1) > 30) {
                     deviceTracker.getLocation().then(function (data) {
@@ -32,7 +30,6 @@
                         console.log(error);
                     });
                 }
-
             }
         });
 
