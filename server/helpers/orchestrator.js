@@ -12,26 +12,29 @@
 
         var sensor = require('node-dht-sensor');
 
-        tempSensor.read(22, 4, function(err, temperature, humidity) {
-            if (!err) {
-                console.log('temp: ' + temperature.toFixed(1) + '°C, ' +
-                    'humidity: ' + humidity.toFixed(1) + '%'
-                );
+        setInterval(function () {
+            tempSensor.read(22, 4, function(err, temperature, humidity) {
+                if (!err) {
+                    console.log('temp: ' + temperature.toFixed(1) + '°C, ' +
+                        'humidity: ' + humidity.toFixed(1) + '%'
+                    );
 
-                if (temperature.toFixed(1) > 30) {
-                    deviceTracker.getLocation().then(function (data) {
-                        iot_cloud.publish("iot-2/evt/status/fmt/json", {
-                            "temp": temperature,
-                            "hum": humidity,
-                            "location": data
-                        }, 2);
-                        console.log(data);
-                    }, function (error) {
-                        console.log(error);
-                    });
+                    if (temperature.toFixed(1) > 30) {
+                        deviceTracker.getLocation().then(function (data) {
+                            iot_cloud.publish("iot-2/evt/status/fmt/json", {
+                                "temp": temperature,
+                                "hum": humidity,
+                                "location": data
+                            }, 2);
+                            console.log(data);
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }, 3000);
+
 
 
         iot_cloud.subscribe("iot-2/cmd/status/fmt/json");
