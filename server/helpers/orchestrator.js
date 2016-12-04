@@ -29,7 +29,7 @@
 
                             trucksDB.find({
                                 "selector": {
-                                    "truck": [device_info.Hardware, device_info.Serial].join("")
+                                    "device": [device_info.Hardware, device_info.Serial].join("")
                                 }
                             }, function (err, data) {
 
@@ -73,7 +73,7 @@
                     } else {
                         trucksDB.find({
                             "selector": {
-                                "truck": [device_info.Hardware, device_info.Serial].join("")
+                                "device": [device_info.Hardware, device_info.Serial].join("")
                             }
                         }, function (err, data) {
 
