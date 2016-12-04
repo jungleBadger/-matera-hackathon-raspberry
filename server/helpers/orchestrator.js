@@ -8,7 +8,8 @@
 
         console.log(device_info);
 
-        var tripsDB = Cloudant.db.use("trips");
+        var trucksDB = Cloudant.db.use("trucks"),
+            tripsDB = Cloudant.db.use("trips");
 
         function checkVehicleCondition () {
             tempSensor.read(22, 4, function(err, temperature, humidity) {
@@ -26,33 +27,40 @@
                             }), 2);
 
 
-                            tripsDB.find({
+                            trucksDB.find({
                                 "selector": {
                                     "truck": [device_info.Hardware, device_info.Serial].join("")
                                 }
                             }, function (err, data) {
 
                                 if (data.docs.length) {
-                                    if (data.docs[0].status === "active") {
-                                        if (data.docs[0].hasOwnProperty("vehicleWarning")) {
-                                            data.docs[0].vehicleTrail.push({
-                                                "location": data,
-                                                "temp": temperature,
-                                                "hum": humidity,
-                                                "problem": "OVERHEAT"
-                                            });
-                                        } else {
-                                            data.docs[0].vehicleTrail = [{
-                                                "location": data,
-                                                "temp": temperature,
-                                                "hum": humidity,
-                                                "problem": "OVERHEAT"
-                                            }];
-                                        }
-                                    }
 
-                                    tripsDB.insert(data.docs[0], function () {
-                                        console.log("INSERTED");
+                                    tripsDB.find({
+                                        "selector": {
+                                            "truck": data.docs[0].placa
+                                        }
+                                    }, function (err, data) {
+                                        if (data.docs[0].status === "active") {
+                                            if (data.docs[0].hasOwnProperty("vehicleWarning")) {
+                                                data.docs[0].vehicleTrail.push({
+                                                    "location": data,
+                                                    "temp": temperature,
+                                                    "hum": humidity,
+                                                    "problem": "OVERHEAT"
+                                                });
+                                            } else {
+                                                data.docs[0].vehicleTrail = [{
+                                                    "location": data,
+                                                    "temp": temperature,
+                                                    "hum": humidity,
+                                                    "problem": "OVERHEAT"
+                                                }];
+                                            }
+                                        }
+
+                                        tripsDB.insert(data.docs[0], function () {
+                                            console.log("INSERTED");
+                                        });
                                     });
                                 }
 
@@ -63,32 +71,40 @@
                             console.log(error);
                         });
                     } else {
-                        tripsDB.find({
+                        trucksDB.find({
                             "selector": {
                                 "truck": [device_info.Hardware, device_info.Serial].join("")
                             }
                         }, function (err, data) {
 
                             if (data.docs.length) {
-                                if (data.docs[0].status === "active") {
-                                    if (data.docs[0].hasOwnProperty("vehicleTrail")) {
-                                        data.docs[0].vehicleTrail.push({
-                                            "location": data,
-                                            "temp": temperature,
-                                            "hum": humidity
-                                        });
-                                    } else {
-                                        data.docs[0].vehicleTrail = [{
-                                            "location": data,
-                                            "temp": temperature,
-                                            "hum": humidity
-                                        }];
-                                    }
-                                }
 
-                                tripsDB.insert(data.docs[0], function () {
-                                    console.log("INSERTED");
+                                tripsDB.find({
+                                    "selector": {
+                                        "truck": data.docs[0].placa
+                                    }
+                                }, function (err, data) {
+                                    if (data.docs[0].status === "active") {
+                                        if (data.docs[0].hasOwnProperty("vehicleTrail")) {
+                                            data.docs[0].vehicleTrail.push({
+                                                "location": data,
+                                                "temp": temperature,
+                                                "hum": humidity
+                                            });
+                                        } else {
+                                            data.docs[0].vehicleTrail = [{
+                                                "location": data,
+                                                "temp": temperature,
+                                                "hum": humidity
+                                            }];
+                                        }
+                                    }
+
+                                    tripsDB.insert(data.docs[0], function () {
+                                        console.log("INSERTED");
+                                    });
                                 });
+
                             }
 
                         });
