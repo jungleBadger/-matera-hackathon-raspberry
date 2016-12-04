@@ -100,6 +100,7 @@
                                         }
                                     }
 
+                                    console.log(data.docs);
                                     tripsDB.insert(data.docs[0], function () {
                                         console.log("INSERTED");
                                     });
