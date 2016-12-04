@@ -11,6 +11,7 @@
         mqtt = require('mqtt'),
         device_configs = require('./server/configs/device_info'),
         iot_configs_local = require('./server/configs/iot_configs-local.js')(localEnv),
+        Cloudant = require('./server/configs/cloudant').init,
         iot_configs_cloud,
         iot_connections_local = require("./server/helpers/iot_connections-local")(mqtt, localEnv),
         deviceTracker = require("./server/helpers/deviceLocation")(request),
@@ -43,7 +44,7 @@
         iot_connection_cloud.createConnection().then(function (cloudMqtt) {
             iot_connections_local = require("./server/helpers/iot_connections-local")(mqtt, localEnv);
             iot_connections_local.createConnection().then(function (localMqtt) {
-                require("./server/helpers/orchestrator")(app, cloudMqtt, localMqtt, io, GPIO, deviceTracker, tempSensor);
+                require("./server/helpers/orchestrator")(app, cloudMqtt, localMqtt, io, GPIO, deviceTracker, tempSensor, Cloudant, device_info);
             });
             console.log('fkn created');
         }, function (err) {

@@ -4,15 +4,13 @@
 (function () {
     "use strict";
 
-    module.exports = function (app, iot_cloud, iot_local, io, GPIO, deviceTracker, tempSensor) {
-
-        var led = new GPIO(4, "out"),
-            ledStatus = 0;
+    module.exports = function (app, iot_cloud, iot_local, io, GPIO, deviceTracker, tempSensor, Cloudant, device_info) {
 
 
-        var sensor = require('node-dht-sensor');
 
-        setInterval(function () {
+        var tripsDB = Cloudant.db.use("trips");
+
+        function checkVehicleCondition () {
             tempSensor.read(22, 4, function(err, temperature, humidity) {
                 if (!err) {
                     console.log('temp: ' + temperature.toFixed(1) + '°C, ' +
@@ -26,15 +24,76 @@
                                 "temp": temperature,
                                 "hum": humidity
                             }), 2);
+
+
+                            tripsDB.find({
+                                "selector": {
+                                    "truck": [device_info.Hardware, device_info.Serial].join("")
+                                }
+                            }, function (err, data) {
+
+                                if (data.docs) {
+                                    if (data.docs[0].status === "active") {
+                                        if (data.docs[0].hasOwnProperty("vehicleWarning")) {
+                                            data.docs[0].vehicleTrail.push({
+                                                "location": data,
+                                                "temp": temperature,
+                                                "hum": humidity,
+                                                "problem": "OVERHEAT"
+                                            });
+                                        } else {
+                                            data.docs[0].vehicleTrail = [{
+                                                "location": data,
+                                                "temp": temperature,
+                                                "hum": humidity,
+                                                "problem": "OVERHEAT"
+                                            }];
+                                        }
+                                    }
+                                }
+
+                            });
+
                             console.log(data);
                         }, function (error) {
                             console.log(error);
                         });
+                    } else {
+                        tripsDB.find({
+                            "selector": {
+                                "truck": [device_info.Hardware, device_info.Serial].join("")
+                            }
+                        }, function (err, data) {
+
+                            if (data.docs) {
+                                if (data.docs[0].status === "active") {
+                                    if (data.docs[0].hasOwnProperty("vehicleTrail")) {
+                                        data.docs[0].vehicleTrail.push({
+                                            "location": data,
+                                            "temp": temperature,
+                                            "hum": humidity
+                                        });
+                                    } else {
+                                        data.docs[0].vehicleTrail = [{
+                                            "location": data,
+                                            "temp": temperature,
+                                            "hum": humidity
+                                        }];
+                                    }
+                                }
+                            }
+
+                        });
                     }
                 }
             });
-        }, 3000);
 
+
+        }
+
+        setInterval(function () {
+            checkVehicleCondition();
+        }, 60000);
 
 
         iot_cloud.subscribe("iot-2/cmd/status/fmt/json");
