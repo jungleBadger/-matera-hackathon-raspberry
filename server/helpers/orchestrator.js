@@ -58,7 +58,7 @@
                                             }
                                         }
 
-                                        tripsDB.insert(data.docs[0], function () {
+                                        tripsDB.insert(data.docs, function () {
                                             console.log("INSERTED");
                                         });
                                     });
