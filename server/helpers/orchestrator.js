@@ -19,7 +19,7 @@
                     );
 
                     if (temperature.toFixed(1) > 30) {
-                        deviceTracker.getLocation().then(function (data) {
+                        deviceTracker.getLocation().then(function (location) {
                             iot_cloud.publish("iot-2/evt/status/fmt/json", JSON.stringify({
                                 "location": data,
                                 "temp": temperature,
@@ -43,14 +43,14 @@
                                         if (data.docs[0].status === "active") {
                                             if (data.docs[0].hasOwnProperty("vehicleWarning")) {
                                                 data.docs[0].vehicleTrail.push({
-                                                    "location": data,
+                                                    "location": location,
                                                     "temp": temperature,
                                                     "hum": humidity,
                                                     "problem": "OVERHEAT"
                                                 });
                                             } else {
                                                 data.docs[0].vehicleTrail = [{
-                                                    "location": data,
+                                                    "location": location,
                                                     "temp": temperature,
                                                     "hum": humidity,
                                                     "problem": "OVERHEAT"
@@ -87,13 +87,13 @@
                                     if (data.docs[0].status === "active") {
                                         if (data.docs[0].hasOwnProperty("vehicleTrail")) {
                                             data.docs[0].vehicleTrail.push({
-                                                "location": data,
+                                                "location": location,
                                                 "temp": temperature,
                                                 "hum": humidity
                                             });
                                         } else {
                                             data.docs[0].vehicleTrail = [{
-                                                "location": data,
+                                                "location": location,
                                                 "temp": temperature,
                                                 "hum": humidity
                                             }];
