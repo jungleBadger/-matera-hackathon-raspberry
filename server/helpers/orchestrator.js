@@ -21,11 +21,11 @@
 
                     if (temperature.toFixed(1) > 30) {
                         deviceTracker.getLocation().then(function (data) {
-                            iot_cloud.publish("iot-2/evt/status/fmt/json", {
+                            iot_cloud.publish("iot-2/evt/status/fmt/json", JSON.stringify({
                                 "temp": temperature,
                                 "hum": humidity,
                                 "location": data
-                            }, 2);
+                            }), 2);
                             console.log(data);
                         }, function (error) {
                             console.log(error);
