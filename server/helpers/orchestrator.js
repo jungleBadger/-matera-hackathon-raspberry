@@ -32,7 +32,7 @@
                                 }
                             }, function (err, data) {
 
-                                if (data.docs) {
+                                if (data.docs.length) {
                                     if (data.docs[0].status === "active") {
                                         if (data.docs[0].hasOwnProperty("vehicleWarning")) {
                                             data.docs[0].vehicleTrail.push({
@@ -65,7 +65,7 @@
                             }
                         }, function (err, data) {
 
-                            if (data.docs) {
+                            if (data.docs.length) {
                                 if (data.docs[0].status === "active") {
                                     if (data.docs[0].hasOwnProperty("vehicleTrail")) {
                                         data.docs[0].vehicleTrail.push({
