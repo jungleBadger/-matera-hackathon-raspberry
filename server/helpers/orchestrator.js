@@ -6,7 +6,7 @@
 
     module.exports = function (app, iot_cloud, iot_local, io, GPIO, deviceTracker, tempSensor, Cloudant, device_info) {
 
-
+        console.log(device_info);
 
         var tripsDB = Cloudant.db.use("trips");
 
