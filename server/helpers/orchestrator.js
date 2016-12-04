@@ -22,9 +22,9 @@
                     if (temperature.toFixed(1) > 30) {
                         deviceTracker.getLocation().then(function (data) {
                             iot_cloud.publish("iot-2/evt/status/fmt/json", JSON.stringify({
+                                "location": data,
                                 "temp": temperature,
-                                "hum": humidity,
-                                "location": data
+                                "hum": humidity
                             }), 2);
                             console.log(data);
                         }, function (error) {
