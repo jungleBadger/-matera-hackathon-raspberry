@@ -11,6 +11,15 @@
         var trucksDB = Cloudant.db.use("trucks"),
             tripsDB = Cloudant.db.use("trips");
 
+        var button = new GPIO(12, "in", "both");
+
+        button.watch(function (err, value) {
+            console.log(err);
+            console.log(value);
+        });
+
+
+
         function checkVehicleCondition () {
             tempSensor.read(22, 4, function(err, temperature, humidity) {
                 if (!err) {
